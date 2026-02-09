@@ -5,7 +5,7 @@ export type AppThemeFonts = {
 
 export const fontAssets = {
   'Helvetica-Bold': require('../assets/fonts/Helvetica-Bold.ttf'),
-  'Helvetica-Regular': require('../assets/fonts/Helvetica-Regular.ttf'),
+  'Helvetica-Regular': require('../assets/fonts/Helvetica.ttf'),
 };
 
 export const FONTS: AppThemeFonts = {
