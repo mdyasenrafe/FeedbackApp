@@ -17,10 +17,9 @@ import {
   LayoutProps,
   layout,
 } from '@shopify/restyle';
-import {Theme} from '../../../theme';
-import {Text, TextProps} from '../Text';
-import {palette} from '../../../theme/elements';
-import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
+import { Theme } from '../../../theme';
+import { Text, TextProps } from '../Text';
+import { palette } from '../../../theme/elements';
 
 type RestyleProps = SpacingProps<Theme> &
   BorderProps<Theme> &
@@ -49,15 +48,7 @@ interface ButtonProps extends RestyleProps {
   onPress?: () => void;
   onPressIn?: () => void;
   onPressOut?: () => void;
-
-  // 🔹 Haptics
-  enableHaptics?: boolean;
 }
-
-const hapticOptions = {
-  enableVibrateFallback: true,
-  ignoreAndroidSystemSettings: false,
-};
 
 export const Button: React.FC<ButtonProps> = ({
   onPress,
@@ -70,16 +61,11 @@ export const Button: React.FC<ButtonProps> = ({
   loadingColor,
   icon,
   iconComponent,
-  enableHaptics,
   ...rest
 }) => {
   const props = useRestyle(restyleFunctions, rest);
 
   const handlePress = () => {
-    if (enableHaptics) {
-      // impactMedium feels good for primary actions
-      ReactNativeHapticFeedback.trigger('impactMedium', hapticOptions);
-    }
     onPress?.();
   };
 
@@ -90,7 +76,8 @@ export const Button: React.FC<ButtonProps> = ({
       onPressOut={onPressOut}
       disabled={isDisabled}
       {...props}
-      style={[styles.container, props.style, isDisabled && styles.disabled]}>
+      style={[styles.container, props.style, isDisabled && styles.disabled]}
+    >
       {isLoading ? (
         <ActivityIndicator
           color={loadingColor === 'primary' ? palette.primary : 'white'}
