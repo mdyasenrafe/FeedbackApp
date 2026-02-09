@@ -5,9 +5,12 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "pod-install": "cd ios && pod install && cd ..",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "apk-build": "cd android && ./gradlew assembleRelease && cd ..",
+    "aab-build": "cd android && ./gradlew bundleRelease"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.2.8",

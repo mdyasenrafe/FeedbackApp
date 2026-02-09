@@ -1,0 +1,27 @@
+export const palette = {
+  primary: '#000000',
+  navy: '#1A4195',
+  black: '#000000',
+  white: 'white',
+  red: '#FF5757',
+  grey: '#DADADA',
+  lightGrey: '#EEEEEE',
+  translucent: 'rgba(255, 255, 255, 0.2)',
+  overlay: 'rgba( 255, 255, 255, 0.10 )',
+  softWhite: '#FCFAFA',
+  semiTransparentBlack: '#000000AA',
+};
+
+export const BASE_COLORS = {
+  primary: palette.primary,
+  navy: palette.navy,
+  black: palette.black,
+  white: palette.white,
+  red: palette.red,
+  grey: palette.grey,
+  lightGrey: palette.lightGrey,
+  translucent: palette.translucent,
+  overlay: palette.overlay,
+  softWhite: palette.softWhite,
+  semiTransparentBlack: palette.semiTransparentBlack,
+};
