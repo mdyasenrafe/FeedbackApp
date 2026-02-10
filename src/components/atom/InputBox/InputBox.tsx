@@ -61,6 +61,7 @@ export const InputBox: React.FC<TextInputProps> = React.memo(
             alignItems="center"
             justifyContent="space-between"
             flexDirection="row"
+            mb="md"
           >
             <Text variant="p3" color={labelColor}>
               {label}
