@@ -12,7 +12,7 @@ export const OnboardingNavigation = () => {
       }}
     >
       <Stack.Screen
-        name="OnboardingScreen"
+        name="AdditionalOnboardingScreen"
         component={AdditionalOnboardingScreen}
       />
     </Stack.Navigator>

@@ -38,7 +38,6 @@ export const BASE_TEXT_VARIANTS = {
     color: 'black',
   },
 
-  // Paragraphs (regular) — p1 starts at 20px
   p1: {
     fontSize: 20,
     fontFamily: 'Helvetica-Regular',
@@ -68,5 +67,12 @@ export const BASE_TEXT_VARIANTS = {
     fontSize: 10,
     fontFamily: 'Helvetica-Regular',
     color: 'black',
+  },
+
+  // button related variants
+  buttonLabel: {
+    fontSize: 16,
+    fontFamily: 'Helvetica-Bold',
+    color: 'white',
   },
 };

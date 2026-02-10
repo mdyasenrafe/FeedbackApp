@@ -5,7 +5,7 @@ export const Home = () => {
   return (
     <Screen name="Home">
       <Box>
-        <Text>HOme</Text>
+        <Text variant="h1">Home</Text>
       </Box>
     </Screen>
   );

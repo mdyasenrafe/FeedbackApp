@@ -12,18 +12,16 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <KeyboardProvider>
-        <ReduxProvider store={store}>
-          <SafeAreaProvider>
-            <AppThemeProvider>
-              <NavigationContainer>
-                <StatusBar />
-                <AppNavigation />
-              </NavigationContainer>
-            </AppThemeProvider>
-          </SafeAreaProvider>
-        </ReduxProvider>
-      </KeyboardProvider>
+      <ReduxProvider store={store}>
+        <SafeAreaProvider>
+          <AppThemeProvider>
+            <NavigationContainer>
+              <StatusBar />
+              <AppNavigation />
+            </NavigationContainer>
+          </AppThemeProvider>
+        </SafeAreaProvider>
+      </ReduxProvider>
     </GestureHandlerRootView>
   );
 }
