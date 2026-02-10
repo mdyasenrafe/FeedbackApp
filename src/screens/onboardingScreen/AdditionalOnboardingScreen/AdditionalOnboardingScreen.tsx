@@ -28,7 +28,7 @@ export const AdditionalOnboardingScreen = ({
           backgroundColor="black"
           paddingVertical="lg"
           borderRadius={'xl'}
-          // onPress={() => navigation.navigate('EmailLinkScreen')}
+          onPress={() => navigation.navigate('RegisterScreen')}
         />
       </Box>
     </Screen>

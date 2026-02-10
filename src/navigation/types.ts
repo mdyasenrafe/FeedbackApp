@@ -2,6 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 
 export type OnboardingScreenParamList = {
   AdditionalOnboardingScreen: undefined;
+  RegisterScreen: undefined;
 };
 
 export type MainScreenParamList = {

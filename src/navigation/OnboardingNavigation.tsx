@@ -1,5 +1,8 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import { AdditionalOnboardingScreen } from '../screens/onboardingScreen';
+import {
+  AdditionalOnboardingScreen,
+  RegisterScreen,
+} from '../screens/onboardingScreen';
 import { OnboardingScreenParamList } from './types';
 
 const Stack = createStackNavigator<OnboardingScreenParamList>();
@@ -15,6 +18,7 @@ export const OnboardingNavigation = () => {
         name="AdditionalOnboardingScreen"
         component={AdditionalOnboardingScreen}
       />
+      <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
     </Stack.Navigator>
   );
 };
