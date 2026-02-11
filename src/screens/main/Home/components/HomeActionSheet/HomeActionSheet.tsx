@@ -16,7 +16,7 @@ export const HomeActionSheet: React.FC<Props> = ({
   onLogout,
 }) => {
   return (
-    <BottomSheet refRBSheet={refRBSheet} height={360}>
+    <BottomSheet refRBSheet={refRBSheet} height={460}>
       <Box padding="4xl">
         <Text variant="h4">Quick actions</Text>
         <Text variant="p4" marginTop="md">
@@ -36,7 +36,7 @@ export const HomeActionSheet: React.FC<Props> = ({
         <Box marginTop="lg">
           <Button
             label="Logout"
-            backgroundColor="white"
+            backgroundColor="red"
             paddingVertical="lg"
             borderRadius="xl"
             onPress={onLogout}
