@@ -25,7 +25,7 @@ export const HomeActionSheet: React.FC<Props> = ({
 }) => {
   return (
     <BottomSheet refRBSheet={refRBSheet} height={400}>
-      <Box px="lg" pt="4xl">
+      <Box px="lg" pt="3xl">
         <RemoteImage
           source={Logo}
           style={{ width: 120, height: 120, alignSelf: 'center' }}
@@ -57,7 +57,7 @@ export const HomeActionSheet: React.FC<Props> = ({
             variant="p3"
             borderColor="mist"
             borderWidth={1}
-            onPress={onPressNotYet} // ✅ uses Home.tsx action
+            onPress={onPressNotYet}
           />
           <Button
             label="Yes, loving it"
@@ -66,7 +66,7 @@ export const HomeActionSheet: React.FC<Props> = ({
             height={48}
             width={'50%'}
             variant="p3_white"
-            onPress={onPressYesLovingIt} // ✅ uses Home.tsx action
+            onPress={onPressYesLovingIt}
           />
         </Row>
       </Box>

@@ -6,11 +6,13 @@ import { Box, Screen, Text } from '../../../components/atom';
 import type { RootState } from '../../../redux/store';
 import { HomeFeedbackSheet } from './components/HomeFeedbackSheet';
 import { HomeActionSheet } from './components/HomeActionSheet';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // import { HomeStoreSheet } from './components/HomeStoreSheet';
 
 type RBSheetRef = React.ElementRef<typeof RBSheet>;
 
 export const Home = () => {
+  const { top } = useSafeAreaInsets();
   const user = useSelector((s: RootState) => s.auth.user);
 
   const actionSheetRef = useRef<RBSheetRef>(null);
@@ -35,8 +37,15 @@ export const Home = () => {
   };
 
   return (
-    <Screen name="Home">
-      <Box flex={1} padding="4xl" backgroundColor="white">
+    <Screen name="Home" expandToTopEdge>
+      <Box
+        flex={1}
+        px="lg"
+        backgroundColor="white"
+        style={{
+          paddingTop: top + 16,
+        }}
+      >
         <Text variant="h1">Home</Text>
 
         {user?.email ? (
