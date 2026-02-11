@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Modal } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../redux/store';
 
 import { MainNavigation } from './MainNavigation';
@@ -10,32 +10,70 @@ import { DeepLinkAuthHandler } from '../utils/DeepLinkAuthHandler';
 import { Box, Text } from '../components/atom';
 import { Button } from '../components/atom/Button';
 
+import { readAuthFromStorage } from '../redux/features/auth.storage';
+import { setAuthFromStorage, setHydrated } from '../redux/features/auth.slice';
+
 type LinkUIState =
   | { state: 'idle' }
   | { state: 'processing' }
   | { state: 'error'; message: string; code?: string };
 
 export function AppNavigation() {
-  const [linkUI, setLinkUI] = useState<LinkUIState>({ state: 'idle' });
-
+  const dispatch = useDispatch();
   const accessToken = useSelector((s: RootState) => s.auth.accessToken);
+  const hydrated = useSelector((s: RootState) => s.auth.hydrated);
 
+  const [linkUI, setLinkUI] = useState<LinkUIState>({ state: 'idle' });
   const isProcessing = linkUI.state === 'processing';
   const isError = linkUI.state === 'error';
 
-  // If auth becomes valid, make sure overlays close
+  // ✅ Boot: load from AsyncStorage once
   useEffect(() => {
-    if (accessToken) {
-      setLinkUI({ state: 'idle' });
-    }
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const stored = await readAuthFromStorage();
+        if (cancelled) return;
+        dispatch(setAuthFromStorage(stored));
+      } catch {
+        if (cancelled) return;
+        dispatch(setHydrated(true));
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [dispatch]);
+
+  // close overlay when authed
+  useEffect(() => {
+    if (accessToken) setLinkUI({ state: 'idle' });
   }, [accessToken]);
+
+  // ✅ don't render stacks until boot finished
+  if (!hydrated) {
+    return (
+      <Box
+        flex={1}
+        alignItems="center"
+        justifyContent="center"
+        backgroundColor="white"
+      >
+        <ActivityIndicator />
+        <Text variant="p3" marginTop="lg">
+          Loading…
+        </Text>
+      </Box>
+    );
+  }
 
   return (
     <>
       <DeepLinkAuthHandler
         onProcessingChange={p => {
           if (p) setLinkUI({ state: 'processing' });
-          // when processing ends, do NOT set idle here
         }}
         onAuthLinkError={({ code, message }) => {
           setLinkUI({ state: 'error', code, message });
@@ -69,7 +107,6 @@ export function AppNavigation() {
         </Box>
       </Modal>
 
-      {/* Error dialog */}
       <Modal visible={isError} transparent animationType="fade">
         <Box
           flex={1}
@@ -89,13 +126,6 @@ export function AppNavigation() {
             <Text variant="p3" marginTop="md">
               {linkUI.state === 'error' ? linkUI.message : ''}
             </Text>
-
-            {/* optional debug code */}
-            {linkUI.state === 'error' && linkUI.code ? (
-              <Text variant="p4" marginTop="sm" color="grey">
-                Error: {linkUI.code}
-              </Text>
-            ) : null}
 
             <Box marginTop="xl">
               <Button

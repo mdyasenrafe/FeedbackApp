@@ -1,5 +1,6 @@
 import { baseApi } from '../../api/baseApi';
 import { setAuth } from './auth.slice';
+import { saveAuthToStorage } from './auth.storage';
 import {
   TRequestLoginLinkReq,
   TRequestLoginLinkRes,
@@ -30,9 +31,15 @@ export const authApi = baseApi.injectEndpoints({
         async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
           try {
             const { data } = await queryFulfilled;
+
             dispatch(
               setAuth({ accessToken: data.accessToken, user: data.user }),
             );
+
+            await saveAuthToStorage({
+              accessToken: data.accessToken,
+              user: data.user,
+            });
           } catch {}
         },
       },

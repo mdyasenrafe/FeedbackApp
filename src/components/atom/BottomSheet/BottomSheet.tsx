@@ -1,14 +1,14 @@
 import RBSheet from 'react-native-raw-bottom-sheet';
 import React from 'react';
-import {Box} from '../Box';
-import {palette} from '../../../theme/elements';
-import {ViewStyle} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import { Box } from '../Box';
+import { palette } from '../../../theme/elements';
+import { ViewStyle } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-type RBSheetRef = React.ElementRef<typeof RBSheet>;
+export type RBSheetRef = React.ElementRef<typeof RBSheet>;
 
 type BottomSheetProps = {
-  refRBSheet: React.RefObject<RBSheetRef>;
+  refRBSheet: React.RefObject<RBSheetRef | null>;
   children: React.ReactNode;
   height?: number;
   containerStyle?: ViewStyle;
@@ -20,7 +20,8 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
   height,
   containerStyle,
 }) => {
-  const {top} = useSafeAreaInsets();
+  const { top } = useSafeAreaInsets();
+
   return (
     <Box>
       <RBSheet
@@ -42,7 +43,8 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
             borderTopLeftRadius: 70,
             ...(containerStyle || {}),
           },
-        }}>
+        }}
+      >
         {children}
       </RBSheet>
     </Box>
