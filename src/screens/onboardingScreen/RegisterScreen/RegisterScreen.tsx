@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Screen, Box, Text, InputBox } from '../../../components/atom';
 import { Button } from '../../../components/atom/Button';
 import { isValidEmail, normalizedEmail } from '../../../utils';
+import { useRequestLoginLinkMutation } from '../../../redux/features';
 
 export type TRegisterStatus = 'idle' | 'sending' | 'sent' | 'error';
 
@@ -11,15 +12,17 @@ export const RegisterScreen = () => {
   const [status, setStatus] = useState<TRegisterStatus>('idle');
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+  const [requestLoginLink] = useRequestLoginLinkMutation();
+
   const emailFieldError = useMemo(() => {
     if (!didSubmit) return undefined;
     if (!isValidEmail(normalizedEmail(email))) return 'Invalid email';
     return undefined;
-  }, [didSubmit, normalizedEmail]);
+  }, [didSubmit, email]);
 
   const canSubmit = useMemo(() => {
     return isValidEmail(normalizedEmail(email)) && status !== 'sending';
-  }, [normalizedEmail, status]);
+  }, [email, status]);
 
   const onSendLink = async () => {
     if (status === 'sending') return;
@@ -27,13 +30,13 @@ export const RegisterScreen = () => {
     setDidSubmit(true);
     setErrorMsg(null);
 
-    if (!isValidEmail(normalizedEmail(email))) return;
+    const cleanEmail = normalizedEmail(email);
+    if (!isValidEmail(cleanEmail)) return;
 
     try {
       setStatus('sending');
 
-      // TODO: replace with your API client
-      // await api.auth.requestMagicLink({ email: normalizedEmail });
+      await requestLoginLink({ email: cleanEmail }).unwrap();
 
       setStatus('sent');
     } catch (e: any) {
