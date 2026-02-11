@@ -39,8 +39,8 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
           },
           container: {
             backgroundColor: palette.white,
-            borderTopRightRadius: 70,
-            borderTopLeftRadius: 70,
+            borderTopRightRadius: 16,
+            borderTopLeftRadius: 16,
             ...(containerStyle || {}),
           },
         }}
