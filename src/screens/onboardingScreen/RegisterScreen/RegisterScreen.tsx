@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { Alert, Linking, Platform } from 'react-native';
 import { Screen, Box, Text, InputBox } from '../../../components/atom';
 import { Button } from '../../../components/atom/Button';
 import { isValidEmail, normalizedEmail } from '../../../utils';
@@ -24,6 +25,27 @@ export const RegisterScreen = () => {
     return isValidEmail(normalizedEmail(email)) && status !== 'sending';
   }, [email, status]);
 
+  const openMailApp = async (cleanEmail: string) => {
+    const url = Platform.OS === 'ios' ? 'message://' : `mailto:${cleanEmail}`;
+
+    try {
+      const supported = await Linking.canOpenURL(url);
+      if (!supported) {
+        Alert.alert(
+          'No mail app found',
+          'Please open your email app manually.',
+        );
+        return;
+      }
+      await Linking.openURL(url);
+    } catch {
+      Alert.alert(
+        'Could not open mail',
+        'Please open your email app manually.',
+      );
+    }
+  };
+
   const onSendLink = async () => {
     if (status === 'sending') return;
 
@@ -39,9 +61,28 @@ export const RegisterScreen = () => {
       await requestLoginLink({ email: cleanEmail }).unwrap();
 
       setStatus('sent');
+
+      Alert.alert(
+        'Check your email',
+        [
+          `We’ve sent a secure sign-in link to:`,
+          '',
+          cleanEmail,
+          '',
+          'Open the email on this device and tap the link to sign in.',
+          'If you don’t see it within a minute, check Spam/Junk or try resending.',
+        ].join('\n'),
+        [
+          { text: 'Close', style: 'cancel' },
+          {
+            text: 'Open Mail',
+            onPress: () => openMailApp(cleanEmail),
+          },
+        ],
+      );
     } catch (e: any) {
       setStatus('error');
-      setErrorMsg('Could not send link. Please try again.');
+      setErrorMsg('Could not send the login link. Please try again.');
     }
   };
 
