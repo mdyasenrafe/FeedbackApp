@@ -7,6 +7,7 @@ import type { RootState } from '../../../redux/store';
 import { HomeFeedbackSheet } from './components/HomeFeedbackSheet';
 import { HomeActionSheet } from './components/HomeActionSheet';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { HomeStoreSheet } from './components/HomeStoreSheet';
 // import { HomeStoreSheet } from './components/HomeStoreSheet';
 
 type RBSheetRef = React.ElementRef<typeof RBSheet>;
@@ -62,8 +63,7 @@ export const Home = () => {
 
         <HomeFeedbackSheet refRBSheet={feedbackSheetRef} />
 
-        {/* Step 3 (if you have it) */}
-        {/* <HomeStoreSheet refRBSheet={storeSheetRef} /> */}
+        <HomeStoreSheet refRBSheet={storeSheetRef} />
       </Box>
     </Screen>
   );
