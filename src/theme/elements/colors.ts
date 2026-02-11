@@ -10,6 +10,8 @@ export const palette = {
   overlay: 'rgba( 255, 255, 255, 0.10 )',
   softWhite: '#FCFAFA',
   semiTransparentBlack: '#000000AA',
+  slate: '#868AA5',
+  mist: '#E1E3EB',
 };
 
 export const BASE_COLORS = {
@@ -24,4 +26,6 @@ export const BASE_COLORS = {
   overlay: palette.overlay,
   softWhite: palette.softWhite,
   semiTransparentBlack: palette.semiTransparentBlack,
+  slate: palette.slate,
+  mist: palette.mist,
 };

@@ -53,6 +53,11 @@ export const BASE_TEXT_VARIANTS = {
     fontFamily: 'Helvetica-Regular',
     color: 'black',
   },
+  p3_white: {
+    fontSize: 16,
+    fontFamily: 'Helvetica-Regular',
+    color: 'white',
+  },
   p4: {
     fontSize: 14,
     fontFamily: 'Helvetica-Regular',

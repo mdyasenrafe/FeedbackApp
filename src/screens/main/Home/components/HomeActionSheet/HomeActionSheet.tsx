@@ -1,47 +1,74 @@
 import React from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import { BottomSheet, Box, Button, Text } from '../../../../../components/atom';
+import {
+  BottomSheet,
+  Box,
+  Button,
+  RemoteImage,
+  Row,
+  Text,
+} from '../../../../../components/atom';
+import Logo from '../../../../../assets/images/logo.png';
 
 type RBSheetRef = React.ElementRef<typeof RBSheet>;
 
 type Props = {
   refRBSheet: React.RefObject<RBSheetRef | null>;
-  onSave: () => void;
-  onLogout: () => void;
+  onPressNotYet: () => void;
+  onPressYesLovingIt: () => void;
 };
 
 export const HomeActionSheet: React.FC<Props> = ({
   refRBSheet,
-  onSave,
-  onLogout,
+  onPressNotYet,
+  onPressYesLovingIt,
 }) => {
   return (
-    <BottomSheet refRBSheet={refRBSheet} height={460}>
-      <Box padding="4xl">
-        <Text variant="h4">Quick actions</Text>
-        <Text variant="p4" marginTop="md">
-          Save feedback or logout.
+    <BottomSheet refRBSheet={refRBSheet} height={400}>
+      <Box px="lg" pt="4xl">
+        <RemoteImage
+          source={Logo}
+          style={{ width: 120, height: 120, alignSelf: 'center' }}
+        />
+
+        <Text
+          variant="h4"
+          marginTop="2xl"
+          fontFamily="Helvetica-Regular"
+          color="black"
+          textAlign="center"
+        >
+          Enjoying Rizon so far?
         </Text>
 
-        <Box marginTop="3xl">
-          <Button
-            label="Save"
-            backgroundColor="black"
-            paddingVertical="lg"
-            borderRadius="xl"
-            onPress={onSave}
-          />
+        <Box mt="sm">
+          <Text variant="p3" color="slate" lineHeight={24} textAlign="center">
+            Your feedback helps us build a better money experience.
+          </Text>
         </Box>
 
-        <Box marginTop="lg">
+        <Row marginTop="3xl" gap="sm">
           <Button
-            label="Logout"
-            backgroundColor="red"
-            paddingVertical="lg"
-            borderRadius="xl"
-            onPress={onLogout}
+            label="Not yet"
+            backgroundColor="white"
+            borderRadius="full"
+            height={48}
+            width={'50%'}
+            variant="p3"
+            borderColor="mist"
+            borderWidth={1}
+            onPress={onPressNotYet} // ✅ uses Home.tsx action
           />
-        </Box>
+          <Button
+            label="Yes, loving it"
+            backgroundColor="black"
+            borderRadius="full"
+            height={48}
+            width={'50%'}
+            variant="p3_white"
+            onPress={onPressYesLovingIt} // ✅ uses Home.tsx action
+          />
+        </Row>
       </Box>
     </BottomSheet>
   );
