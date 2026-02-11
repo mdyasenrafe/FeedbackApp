@@ -4,10 +4,10 @@ import { RootState } from '../redux';
 const baseQuery = fetchBaseQuery({
   baseUrl: 'https://feedback-backend-shh8.onrender.com',
   prepareHeaders: (headers, { getState }) => {
-    // const token = (getState() as RootState).auth.token;
-    // if (token) {
-    //   headers.set('authorization', `Bearer ${token}`);
-    // }
+    const token = (getState() as RootState).auth.accessToken;
+    if (token) {
+      headers.set('authorization', `Bearer ${token}`);
+    }
 
     return headers;
   },
