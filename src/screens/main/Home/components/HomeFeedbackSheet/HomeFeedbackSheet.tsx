@@ -11,7 +11,7 @@ import {
 type RBSheetRef = React.ElementRef<typeof RBSheet>;
 
 type Props = {
-  refRBSheet: React.RefObject<RBSheetRef>;
+  refRBSheet: React.RefObject<RBSheetRef | null>;
   value: string;
   onChange: (v: string) => void;
   onSubmit: () => void;
