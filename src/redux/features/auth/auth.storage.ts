@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import type { TUser } from './auth.type';
+import { TUser } from './auth.type';
 
 const AUTH_KEY = 'auth.session.v1';
 

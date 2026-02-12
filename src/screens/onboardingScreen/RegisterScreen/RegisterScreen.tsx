@@ -3,7 +3,7 @@ import { Alert, Linking, Platform } from 'react-native';
 import { Screen, Box, Text, InputBox } from '../../../components/atom';
 import { Button } from '../../../components/atom/Button';
 import { isValidEmail, normalizedEmail } from '../../../utils';
-import { useRequestLoginLinkMutation } from '../../../redux/features';
+import { useRequestLoginLinkMutation } from '../../../redux/features/auth';
 
 export type TRegisterStatus = 'idle' | 'sending' | 'sent' | 'error';
 

@@ -10,8 +10,11 @@ import { DeepLinkAuthHandler } from '../utils/DeepLinkAuthHandler';
 import { Box, Text } from '../components/atom';
 import { Button } from '../components/atom/Button';
 
-import { readAuthFromStorage } from '../redux/features/auth.storage';
-import { setAuthFromStorage, setHydrated } from '../redux/features/auth.slice';
+import {
+  setAuthFromStorage,
+  setHydrated,
+} from '../redux/features/auth/auth.slice';
+import { readAuthFromStorage } from '../redux/features/auth';
 
 type LinkUIState =
   | { state: 'idle' }
@@ -27,7 +30,6 @@ export function AppNavigation() {
   const isProcessing = linkUI.state === 'processing';
   const isError = linkUI.state === 'error';
 
-  // ✅ Boot: load from AsyncStorage once
   useEffect(() => {
     let cancelled = false;
 

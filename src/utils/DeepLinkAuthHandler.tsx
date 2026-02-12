@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useCallback } from 'react';
 import { Linking } from 'react-native';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../redux/store';
-import { useVerifyLoginLinkMutation } from '../redux/features';
+import { useVerifyLoginLinkMutation } from '../redux/features/auth';
 
 function getQueryParam(url: string, key: string): string | null {
   const qIndex = url.indexOf('?');

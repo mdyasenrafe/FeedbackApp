@@ -1,4 +1,4 @@
-import { baseApi } from '../../api/baseApi';
+import { baseApi } from '../../../api/baseApi';
 import { setAuth } from './auth.slice';
 import { saveAuthToStorage } from './auth.storage';
 import {

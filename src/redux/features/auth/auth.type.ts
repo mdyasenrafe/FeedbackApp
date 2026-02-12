@@ -12,7 +12,7 @@ export type TRequestLoginLinkRes = {
 };
 
 export type TVerifyLoginLinkReq = {
-  token: string; // raw token only
+  token: string;
 };
 
 export type TVerifyLoginLinkRes = {
