@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { useSelector } from 'react-redux';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Box, Screen, Text } from '../../../components/atom';
 import type { RootState } from '../../../redux/store';
 import { HomeFeedbackSheet } from './components/HomeFeedbackSheet';
 import { HomeActionSheet } from './components/HomeActionSheet';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HomeStoreSheet } from './components/HomeStoreSheet';
-// import { HomeStoreSheet } from './components/HomeStoreSheet';
 
 type RBSheetRef = React.ElementRef<typeof RBSheet>;
 
@@ -37,15 +36,17 @@ export const Home = () => {
     setTimeout(() => storeSheetRef.current?.open(), 250);
   };
 
+  const openStoreSheet = () => {
+    storeSheetRef.current?.open();
+  };
+
   return (
     <Screen name="Home" expandToTopEdge>
       <Box
         flex={1}
         px="lg"
         backgroundColor="white"
-        style={{
-          paddingTop: top + 16,
-        }}
+        style={{ paddingTop: top + 16 }}
       >
         <Text variant="h1">Home</Text>
 
