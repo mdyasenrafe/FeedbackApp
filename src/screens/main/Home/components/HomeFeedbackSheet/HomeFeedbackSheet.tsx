@@ -8,6 +8,7 @@ import {
   InputBox,
   Text,
 } from '../../../../../components/atom';
+import { useCreateFeedbackMutation } from '../../../../../redux/features/feedback/feedback.api';
 
 type RBSheetRef = React.ElementRef<typeof RBSheet>;
 
@@ -16,10 +17,11 @@ type Props = {
 };
 
 export const HomeFeedbackSheet: React.FC<Props> = ({ refRBSheet }) => {
-  const [value, setValue] = useState(''); // ✅ local feedback text
+  const [value, setValue] = useState('');
   const [didSubmit, setDidSubmit] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const [createFeedback, { isLoading }] = useCreateFeedbackMutation();
 
   const trimmed = useMemo(() => value.trim(), [value]);
 
@@ -30,32 +32,25 @@ export const HomeFeedbackSheet: React.FC<Props> = ({ refRBSheet }) => {
   }, [didSubmit, trimmed]);
 
   const canSubmit = useMemo(() => {
-    if (isSubmitting) return false;
+    if (isLoading) return false;
     if (trimmed.length === 0) return false;
     return true;
-  }, [isSubmitting, trimmed]);
+  }, [isLoading, trimmed]);
 
   const onSendFeedback = async () => {
-    if (isSubmitting) return; // ✅ prevent double submit
+    if (isLoading) return;
     setDidSubmit(true);
     setErrorMsg(null);
 
     if (!canSubmit) return;
 
     try {
-      setIsSubmitting(true);
-
-      // wait 2500s
-      await new Promise(resolve => setTimeout(resolve, 2500));
-
-      setIsSubmitting(false);
-
+      const res = await createFeedback({ message: trimmed }).unwrap();
+      console.log('res feedback', res);
       Alert.alert('Thank you!', 'Your feedback has been sent.');
-      refRBSheet.current?.close(); // ✅ close only after success
-    } catch (e) {
-      setIsSubmitting(false);
+      refRBSheet.current?.close();
+    } catch (e: any) {
       setErrorMsg('Could not send feedback. Please try again.');
-      // ✅ keep `value` so user doesn’t lose typed text
     }
   };
 
@@ -92,16 +87,8 @@ export const HomeFeedbackSheet: React.FC<Props> = ({ refRBSheet }) => {
               setValue(t);
               if (errorMsg) setErrorMsg(null);
             }}
-            isEditable={!isSubmitting}
+            isEditable={!isLoading}
           />
-
-          {validationError ? (
-            <Box mt="sm">
-              <Text variant="p4" color="red">
-                {validationError}
-              </Text>
-            </Box>
-          ) : null}
 
           {!validationError && errorMsg ? (
             <Box mt="sm">
@@ -121,7 +108,7 @@ export const HomeFeedbackSheet: React.FC<Props> = ({ refRBSheet }) => {
             width={'100%'}
             variant="p3_white"
             onPress={onSendFeedback}
-            isLoading={isSubmitting}
+            isLoading={isLoading}
             isDisabled={!canSubmit}
             loadingColor="white"
           />
