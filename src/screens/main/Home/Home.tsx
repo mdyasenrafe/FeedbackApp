@@ -19,8 +19,6 @@ export const Home = () => {
   const feedbackSheetRef = useRef<RBSheetRef>(null);
   const storeSheetRef = useRef<RBSheetRef>(null);
 
-  const [feedback, setFeedback] = useState('');
-
   useEffect(() => {
     const t = setTimeout(() => actionSheetRef.current?.open(), 250);
     return () => clearTimeout(t);
@@ -34,10 +32,6 @@ export const Home = () => {
   const onPressYesLovingIt = () => {
     actionSheetRef.current?.close();
     setTimeout(() => storeSheetRef.current?.open(), 250);
-  };
-
-  const openStoreSheet = () => {
-    storeSheetRef.current?.open();
   };
 
   return (
