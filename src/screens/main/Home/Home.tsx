@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import { useSelector } from 'react-redux';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -8,6 +8,10 @@ import type { RootState } from '../../../redux/store';
 import { HomeFeedbackSheet } from './components/HomeFeedbackSheet';
 import { HomeActionSheet } from './components/HomeActionSheet';
 import { HomeStoreSheet } from './components/HomeStoreSheet';
+import {
+  hasShownOnboarding,
+  markOnboardingShown,
+} from '../../../redux/features/auth';
 
 type RBSheetRef = React.ElementRef<typeof RBSheet>;
 
@@ -19,10 +23,28 @@ export const Home = () => {
   const feedbackSheetRef = useRef<RBSheetRef>(null);
   const storeSheetRef = useRef<RBSheetRef>(null);
 
-  useEffect(() => {
-    const t = setTimeout(() => actionSheetRef.current?.open(), 250);
-    return () => clearTimeout(t);
+  const didCheckOnboardingRef = useRef<string | null>(null);
+
+  const maybeShowOnboarding = useCallback(async (userId: string) => {
+    const shown = await hasShownOnboarding(userId);
+    if (shown) return;
+
+    await markOnboardingShown(userId);
+
+    setTimeout(() => {
+      actionSheetRef.current?.open();
+    }, 250);
   }, []);
+
+  useEffect(() => {
+    const userId = user?.id;
+    if (!userId) return;
+
+    if (didCheckOnboardingRef.current === userId) return;
+    didCheckOnboardingRef.current = userId;
+
+    maybeShowOnboarding(userId).catch(() => {});
+  }, [user?.id, maybeShowOnboarding]);
 
   const onPressNotYet = () => {
     actionSheetRef.current?.close();
@@ -57,7 +79,6 @@ export const Home = () => {
         />
 
         <HomeFeedbackSheet refRBSheet={feedbackSheetRef} />
-
         <HomeStoreSheet refRBSheet={storeSheetRef} />
       </Box>
     </Screen>

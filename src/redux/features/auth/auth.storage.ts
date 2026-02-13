@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TUser } from './auth.type';
 
 const AUTH_KEY = 'auth.session.v1';
+const ONBOARDING_KEY_PREFIX = 'onboarding.shown.v1';
 
 export type StoredAuth = {
   accessToken: string;
@@ -28,4 +29,17 @@ export async function readAuthFromStorage(): Promise<StoredAuth | null> {
 
 export async function clearAuthFromStorage() {
   await AsyncStorage.removeItem(AUTH_KEY);
+}
+
+function keyForUser(userId: string) {
+  return `${ONBOARDING_KEY_PREFIX}:${userId}`;
+}
+
+export async function hasShownOnboarding(userId: string): Promise<boolean> {
+  const v = await AsyncStorage.getItem(keyForUser(userId));
+  return v === '1';
+}
+
+export async function markOnboardingShown(userId: string): Promise<void> {
+  await AsyncStorage.setItem(keyForUser(userId), '1');
 }

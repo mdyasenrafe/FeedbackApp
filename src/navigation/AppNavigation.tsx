@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Modal } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../redux/store';
@@ -30,31 +30,35 @@ export function AppNavigation() {
   const isProcessing = linkUI.state === 'processing';
   const isError = linkUI.state === 'error';
 
-  useEffect(() => {
-    let cancelled = false;
-
-    (async () => {
+  const bootAuthFromStorage = useCallback(
+    async (isCancelled: () => boolean) => {
       try {
         const stored = await readAuthFromStorage();
-        if (cancelled) return;
+        if (isCancelled()) return;
         dispatch(setAuthFromStorage(stored));
       } catch {
-        if (cancelled) return;
+        if (isCancelled()) return;
         dispatch(setHydrated(true));
       }
-    })();
+    },
+    [dispatch],
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+    const isCancelled = () => cancelled;
+
+    bootAuthFromStorage(isCancelled);
 
     return () => {
       cancelled = true;
     };
-  }, [dispatch]);
+  }, [bootAuthFromStorage]);
 
-  // close overlay when authed
   useEffect(() => {
     if (accessToken) setLinkUI({ state: 'idle' });
   }, [accessToken]);
 
-  // ✅ don't render stacks until boot finished
   if (!hydrated) {
     return (
       <Box
