@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { I18nManager, StyleSheet, TextInput, View } from 'react-native';
 import {
   useRestyle,
   composeRestyleFunctions,

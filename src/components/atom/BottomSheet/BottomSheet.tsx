@@ -27,8 +27,8 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
       <RBSheet
         height={height ?? 500}
         ref={refRBSheet}
-        closeOnPressMask={true}
-        closeOnPressBack={true}
+        closeOnPressMask={false}
+        closeOnPressBack={false}
         customStyles={{
           wrapper: {
             backgroundColor: palette.semiTransparentBlack,
